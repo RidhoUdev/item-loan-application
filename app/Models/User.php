@@ -3,9 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -18,10 +19,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username', 
         'email',
+        'phone',
+        'role',
         'password',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -43,5 +46,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function borrowRequestAsBorrower():HasMany
+    {
+        return $this->hasMany(BorrowRequest::class, 'borrower_id');
+    }
+
+    public function borrowRequestAsOperator():HasMany
+    {
+        return $this->hasMany(BorrowRequest::class, 'operator_id');
     }
 }
