@@ -1,3 +1,12 @@
 @import "tailwindcss";
+@theme {
+    --color-greenSlate: oklch(35.52% 0.041 238.65);
+    --color-neutralize: oklch(94.88% 0.005 95.10);
+    --color-pastelOrange: oklch(72.07% 0.178 40.61);
+    --color-compound: oklch(39.54% 0.043 257.42)
+}
 @source "../views";
 @plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, cupcake;
+}
