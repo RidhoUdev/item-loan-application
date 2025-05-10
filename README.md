@@ -48,7 +48,7 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
 1.  **Clone Repositori Proyek:**
     Buka terminal atau command prompt, lalu navigasi ke direktori kerja Anda dan jalankan:
     ```bash
-    git clone -b main [https://github.com/RidhoUdev/BorrowBox.git](https://github.com/RidhoUdev/BorrowBox.git)
+    git clone -b main [https://github.com/RidhoUdev/item-loan-application.git](https://github.com/RidhoUdev/item-loan-application.git)
     ```
 
 2.  **Masuk ke Direktori Proyek:**
@@ -75,7 +75,7 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
     ```
 
 6.  **Konfigurasi Database pada File `.env`:**
-    Buka file `.env` menggunakan editor teks favorit Anda. Sesuaikan bagian koneksi database seperti contoh di bawah. **Pastikan Anda sudah membuat database kosong** (misalnya bernama `borrowbox`) sebelum melanjutkan.
+    Buka file `.env` menggunakan editor teks favorit Anda. Sesuaikan bagian koneksi database seperti contoh di bawah. **Pastikan Anda sudah membuat database kosong** (misalnya bernama `gopinjam`) sebelum melanjutkan.
 
     ```dotenv
     DB_CONNECTION=mysql
@@ -129,22 +129,19 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
 * Pencarian Barang Mudah
 * Desain Responsif
 
-*(Sesuaikan daftar fitur ini dengan yang sebenarnya ada di aplikasi Anda)*
 
 ---
 
-## 🖼️ Tampilan Aplikasi (Saran)
+## 🖼️ Tampilan Aplikasi 
 
-*(Sangat disarankan untuk menambahkan beberapa screenshot atau GIF singkat yang menampilkan antarmuka aplikasi Anda di sini. Ini akan membuat README lebih menarik secara visual.)*
 
 **Contoh:**
 
 * *Halaman Login*
-    `[Gambar Halaman Login Anda di sini]`
+
 * *Dashboard Admin*
-    `[Gambar Dashboard Admin Anda di sini]`
+
 * *Proses Peminjaman*
-    `[GIF Proses Peminjaman Anda di sini]`
 
 ---
 
