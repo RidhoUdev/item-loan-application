@@ -1,6 +1,6 @@
 @extends('layouts.operator')
 
-@section('title', 'Daftar Permintaan Aktif') {{-- Judul diubah --}}
+@section('title', 'Daftar Permintaan Aktif')
 
 @section('content')
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
@@ -8,14 +8,14 @@
             Permintaan Peminjaman Aktif
         </h1>
         <form method="GET" action="{{ route('operator.requests.index') }}" class="flex flex-wrap items-end gap-2">
-            {{-- Filter Peminjam --}}
+
             <label class="form-control w-full sm:w-auto">
                 <div class="label pt-0">
                     <span class="label-text">Cari Peminjam</span>
                 </div>
                 <input type="text" name="borrower_search" placeholder="Nama/Email Peminjam..." value="{{ request('borrower_search') }}" class="input input-bordered input-sm w-full max-w-xs" />
             </label>
-            {{-- Filter Status Aktif --}}
+
             <label class="form-control w-full sm:w-auto">
                 <div class="label pt-0">
                     <span class="label-text">Filter Status</span>
@@ -34,7 +34,6 @@
         </form>
     </div>
 
-    {{-- Alert Area --}}
     @if (session('success'))
         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition role="alert" class="alert alert-success mb-4">
              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -89,8 +88,8 @@
                                     'pending' => 'badge-warning',
                                     'approved' => 'badge-info',
                                     'borrowed' => 'badge-primary',
-                                    // 'returned' => 'badge-success', // Tidak akan muncul di sini lagi
-                                    // 'rejected' => 'badge-error', // Tidak akan muncul di sini lagi
+                                    // 'returned' => 'badge-success',
+                                    // 'rejected' => 'badge-error',
                                     default => 'badge-ghost',
                                 };
                             @endphp
