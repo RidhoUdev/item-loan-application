@@ -38,11 +38,10 @@
 
     <div class="bg-white shadow-md rounded-lg overflow-x-auto">
         <table class="table w-full">
-            {{-- head --}}
             <thead class="text-xs text-white uppercase bg-compound">
                 <tr>
-                    <th>Nama</th>
-                    <th>Email</th>
+                    <th>Nama & Email</th>
+                    <th>Username</th>
                     <th>Phone</th>
                     <th>Role</th>
                     <th class="text-center">Action</th>
@@ -52,9 +51,10 @@
                 @forelse ($users as $user)
                     <tr class="hover">
                         <td>
-                            <div class="font-bold">{{ $user->name }}</div>
+                            <div class="font-semibold">{{ $user->name ?? 'N/A' }}</div>
+                            <div class="text-xs text-gray-500">{{ $user->email ?? '' }}</div>
                         </td>
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->username }}</td>
                         <td>{{ $user->phone ?? '-' }}</td>
                         <td class="font-semibold">
                              <span class="badge badge-sm text-white
@@ -65,19 +65,15 @@
                             </span>
                         </td>
                         <td class="text-center whitespace-nowrap">
-                            {{-- Tombol Edit untuk membuka modal --}}
                             <button class="btn btn-xs btn-outline btn-info mr-1"
                                     onclick="edit_user_modal_{{ $user->id }}.showModal()">
                                 Edit
                             </button>
 
-                            {{-- Tombol Delete --}}
                             @if(Auth::id() !== $user->id)
-                            {{-- Hapus onsubmit dari form --}}
                             <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                {{-- Tambahkan class 'delete-button' --}}
                                 <button type="submit" class="btn btn-xs btn-outline btn-error delete-button">Delete</button>
                             </form>
                         @endif
