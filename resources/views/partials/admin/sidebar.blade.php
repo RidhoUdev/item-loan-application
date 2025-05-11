@@ -51,7 +51,7 @@
                              : 'text-white hover:bg-neutralize hover:text-black' }}">
                     <div class="flex items-center gap-3">
                         <span class="iconify w-6 h-6 flex-shrink-0 {{ request()->routeIs('admin.users.index*') ? 'text-black' : 'text-white group-hover:text-black' }}" data-icon="material-symbols:manage-accounts-rounded"></span>
-                        Manage Account
+                        Kelola Akun
                     </div>
                 </a>
             </li>
