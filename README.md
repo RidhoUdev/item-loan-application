@@ -53,7 +53,7 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
 
 2.  **Masuk ke Direktori Proyek:**
     ```bash
-    cd BorrowBox
+    cd GoPinjam
     ```
 
 3.  **Install Dependensi PHP (via Composer):**
