@@ -19,9 +19,9 @@
 
 ---
 
-## 🚀 Sekilas Tentang BorrowBox
+## 🚀 Sekilas Tentang GoPinjam
 
-BorrowBox adalah solusi modern untuk manajemen peminjaman aset sekolah. Dengan antarmuka yang ramah pengguna, aplikasi ini bertujuan untuk menyederhanakan proses bagi:
+GoPinjam adalah solusi modern untuk manajemen peminjaman aset sekolah. Dengan antarmuka yang ramah pengguna, aplikasi ini bertujuan untuk menyederhanakan proses bagi:
 
 * 👨‍💼 **Admin:** Kontrol penuh atas sistem, pengguna, dan inventaris.
 * 🧑‍💻 **Operator:** Memproses permintaan peminjaman dan pengembalian dengan mudah.
@@ -53,7 +53,7 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
 
 2.  **Masuk ke Direktori Proyek:**
     ```bash
-    cd BorrowBox
+    cd GoPinjam
     ```
 
 3.  **Install Dependensi PHP (via Composer):**
@@ -115,7 +115,7 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
     ```
     Aplikasi Anda sekarang akan dapat diakses melalui peramban web di alamat: `http://127.0.0.1:8000`
 
-🎉 **Selamat!** BorrowBox seharusnya sudah berjalan di sistem lokal Anda.
+🎉 **Selamat!** GoPinjam seharusnya sudah berjalan di sistem lokal Anda.
 
 ---
 
