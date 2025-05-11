@@ -65,13 +65,12 @@
                             @endphp
                             <span class="badge {{ $badgeClass }} badge-md">{{ ucfirst($status) }}</span>
                         </td>
-                        <td>{{ $request->operator->name ?? '-' }}</td> {{-- Tampilkan nama operator jika ada --}}
-                        {{-- Opsional: Tombol Aksi (misal: Batalkan jika pending) --}}
+                        <td>{{ $request->operator->name ?? '-' }}</td>
                         {{-- <td class="whitespace-nowrap">
                             @if($request->status === 'pending')
                                 <form action="{{ route('user.borrow.cancel', $request) }}" method="POST" onsubmit="return confirm('Batalkan permintaan ini?');">
                                     @csrf
-                                    @method('DELETE') // Atau method lain sesuai route cancel
+                                    @method('DELETE')
                                     <button type="submit" class="btn btn-xs btn-outline btn-error">Batalkan</button>
                                 </form>
                             @endif
