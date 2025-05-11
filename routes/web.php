@@ -3,14 +3,22 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Auth\AuthenticationController;
+
+// Admin Controller
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ItemController as AdminItemController;
 use App\Http\Controllers\Admin\UserController as AdminUserManagementController;
 
+// Operator Controller
 use App\Http\Controllers\Operator\OperatorController;
 use App\Http\Controllers\Operator\BorrowRequestController as OperatorBorrowRequestController;
 use App\Http\Controllers\Operator\ItemController as OperatorItemController;
+
+// User Controller
+use App\Http\Controllers\User\ItemController as UserItemController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\BorrowRequestController as UserBorrowRequestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,6 +48,16 @@ Route::middleware(['auth', RoleMiddleware::class . ':operator'])
         Route::get('/requests', [OperatorBorrowRequestController::class, 'index'])->name('requests.index');
         Route::patch('/requests/{borrowRequest}/approve', [OperatorBorrowRequestController::class, 'approve'])->name('requests.approve');
         Route::patch('/requests/{borrowRequest}/reject', [OperatorBorrowRequestController::class, 'reject'])->name('requests.reject');
+        Route::patch('/requests/{borrowRequest}/borrowed', [OperatorBorrowRequestController::class, 'markAsBorrowedOut'])->name('requests.markBorrowed');
         Route::patch('/requests/{borrowRequest}/return', [OperatorBorrowRequestController::class, 'markAsReturned'])->name('requests.return');
         Route::get('/borrower-history', [OperatorBorrowRequestController::class, 'borrowerHistory'])->name('borrower.history.index');
+});
+
+// User
+Route::middleware(['auth', RoleMiddleware::class . ':user'])
+    ->prefix('user')->name('user.')->group(function () {
+        Route::get('/items', [UserItemController::class, 'index'])->name('items.index');
+        Route::get('/my-requests', [UserController::class, 'myRequests'])->name('pending');
+        Route::get('/borrow/create', [UserBorrowRequestController::class, 'create'])->name('borrow.create');
+        Route::post('/borrow', [UserBorrowRequestController::class, 'store'])->name('borrow.store');
 });
