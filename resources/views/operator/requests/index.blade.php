@@ -8,14 +8,12 @@
             Permintaan Peminjaman Aktif
         </h1>
         <form method="GET" action="{{ route('operator.requests.index') }}" class="flex flex-wrap items-end gap-2">
-
             <label class="form-control w-full sm:w-auto">
                 <div class="label pt-0">
                     <span class="label-text">Cari Peminjam</span>
                 </div>
                 <input type="text" name="borrower_search" placeholder="Nama/Email Peminjam..." value="{{ request('borrower_search') }}" class="input input-bordered input-sm w-full max-w-xs" />
             </label>
-
             <label class="form-control w-full sm:w-auto">
                 <div class="label pt-0">
                     <span class="label-text">Filter Status</span>
@@ -27,7 +25,7 @@
                     <option value="borrowed" {{ request('status_filter') == 'borrowed' ? 'selected' : '' }}>Borrowed</option>
                 </select>
             </label>
-            <button type="submit" class="btn btn-sm bg-pastelOrange text-white">Filter</button>
+            <button type="submit" class="btn btn-sm bg-pastelOrange text-white">Filter</button> {{-- Warna tombol disesuaikan --}}
             @if(request()->has('status_filter') && request('status_filter') !== 'all_active' || request()->has('borrower_search'))
                 <a href="{{ route('operator.requests.index') }}" class="btn btn-sm btn-ghost">Reset</a>
             @endif
@@ -88,8 +86,6 @@
                                     'pending' => 'badge-warning',
                                     'approved' => 'badge-info',
                                     'borrowed' => 'badge-primary',
-                                    // 'returned' => 'badge-success',
-                                    // 'rejected' => 'badge-error',
                                     default => 'badge-ghost',
                                 };
                             @endphp
@@ -112,7 +108,16 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                                     </button>
                                 </form>
-                            @elseif(in_array($request->status, ['approved', 'borrowed']))
+                            @elseif($request->status === 'approved')
+                                <form action="{{ route('operator.requests.markBorrowed', $request) }}" method="POST" class="inline">
+                                     @csrf
+                                     @method('PATCH')
+                                     <button type="submit" class="btn btn-xs btn-primary" title="Tandai Sudah Diambil Peminjam">
+                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
+                                         Dipinjam
+                                     </button>
+                                 </form>
+                            @elseif($request->status === 'borrowed')
                                 <form action="{{ route('operator.requests.return', $request) }}" method="POST" class="inline">
                                      @csrf
                                      @method('PATCH')
