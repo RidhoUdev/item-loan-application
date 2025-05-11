@@ -115,7 +115,7 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
     ```
     Aplikasi Anda sekarang akan dapat diakses melalui peramban web di alamat: `http://127.0.0.1:8000`
 
-🎉 **Selamat!** BorrowBox seharusnya sudah berjalan di sistem lokal Anda.
+🎉 **Selamat!** GoPinjam seharusnya sudah berjalan di sistem lokal Anda.
 
 ---
 
