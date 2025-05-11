@@ -19,9 +19,9 @@
 
 ---
 
-## 🚀 Sekilas Tentang BorrowBox
+## 🚀 Sekilas Tentang GoPinjam
 
-BorrowBox adalah solusi modern untuk manajemen peminjaman aset sekolah. Dengan antarmuka yang ramah pengguna, aplikasi ini bertujuan untuk menyederhanakan proses bagi:
+GoPinjam adalah solusi modern untuk manajemen peminjaman aset sekolah. Dengan antarmuka yang ramah pengguna, aplikasi ini bertujuan untuk menyederhanakan proses bagi:
 
 * 👨‍💼 **Admin:** Kontrol penuh atas sistem, pengguna, dan inventaris.
 * 🧑‍💻 **Operator:** Memproses permintaan peminjaman dan pengembalian dengan mudah.
