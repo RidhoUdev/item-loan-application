@@ -12,7 +12,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::with('category')->latest()->paginate(10);
+        $items = Item::with('category')->latest()->paginate(5);
         $categories = Category::orderBy('name')->get();
         return view('admin.items.index', compact('items', 'categories'));
     }
