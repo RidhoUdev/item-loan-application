@@ -1,77 +1,85 @@
 @extends('layouts.guest')
-@section('title', 'Halaman Login')
-@section('content')
-<div class="flex items-center justify-center min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
-    <div class="w-full max-w-4xl mx-auto">
-        <div class="flex bg-white rounded-xl shadow-xl shadow-teal-200 overflow-hidden">
 
-            <div class="w-full md:w-1/2 p-8 sm:p-12">
-                <div class="w-full max-w-md mx-auto"> 
-                    <div class="mb-8">
-                        <h2 class="text-3xl font-bold tracking-tight text-gray-900">
+@section('title', 'Login ke GoPinjam')
+
+@section('content')
+<div class="flex items-center justify-center min-h-screen px-4 py-12 bg-neutralize">
+    <div class="w-full max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row bg-greenSlate rounded-xl shadow-2xl overflow-hidden">
+
+            <div class="w-full md:w-1/2 bg-greenSlate text-white p-8 sm:p-12 flex flex-col justify-center items-center text-center">
+                <img src="{{ asset('img/logo-gopinjam.svg') }}" alt="GoPinjam Logo" class="w-24 h-24 mb-6">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-3">Selamat Datang!</h1>
+                <p class="text-sm sm:text-base text-gray-300 mb-8">
+                    Pinjam barang kebutuhan sekolah dengan mudah dan cepat bersama GoPinjam.
+                </p>
+                {{-- <div class="w-full max-w-xs h-48 bg-[--color-compound] rounded-lg flex items-center justify-center">
+                    <p class="text-gray-400">Ilustrasi Aplikasi</p>
+                </div> --}}
+            </div>
+
+            <div class="w-full md:w-1/2 p-8 sm:p-12 bg-white">
+                <div class="w-full max-w-md mx-auto">
+                    <div class="mb-8 text-center md:text-left">
+                        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-greenSlate">
                             Sign-in
                         </h2>
-                        <p class="mt-2 text-sm text-gray-600">
-                            Sign-in to BorrowBox now
+                        <p class="mt-2 text-sm text-gray-500">
+                            Masuk untuk melanjutkan ke GoPinjam.
                         </p>
                     </div>
 
                     <form class="space-y-6" action="{{ route('login') }}" method="POST">
                         @csrf
-                        <div>
-                            <label for="login_identifier" class="block text-sm font-medium text-gray-700 mb-1">
-                                Email atau Username
-                            </label>
+
+                        <label class="form-control w-full">
+                            <div class="label">
+                                <span class="label-text text-gray-700">Email atau Username</span>
+                            </div>
                             <input id="login_identifier" name="login_identifier" type="text" autocomplete="username email" required
                                    value="{{ old('login_identifier') }}"
-                                   class="block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm appearance-none placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
-                                   placeholder="Masukkan email atau username">
+                                   class="input input-bordered w-full border-gray-300 focus:outline-0 focus:border-pastelOrange focus:ring focus:ring-pastelOrange focus:ring-opacity-50 @error('login_identifier') input-error @enderror"
+                                   placeholder="Email atau username Anda"
+                                   autocomplete="off"/>
                             @error('login_identifier')
-                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                <div class="label">
+                                    <span class="label-text-alt text-red-600">{{ $message }}</span>
+                                </div>
                             @enderror
-                        </div>
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
-                                Password
-                            </label>
+                        </label>
+
+                        <label class="form-control w-full">
+                             <div class="label">
+                                <span class="label-text text-gray-700">Password</span>
+                            </div>
                             <input id="password" name="password" type="password" autocomplete="current-password" required
-                                   class="block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm appearance-none placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm"
-                                   placeholder="••••••••">
-                             @error('password')
-                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                             @enderror
-                        </div>
-                        <div>
+                                   class="input input-bordered w-full border-gray-300 focus:outline-0 focus:border-pastelOrange focus:ring focus:ring-pastelOrange focus:ring-opacity-50 @error('password') input-error @enderror"
+                                   placeholder="••••••••"/>
+                            @error('password')
+                                <div class="label">
+                                    <span class="label-text-alt text-red-600">{{ $message }}</span>
+                                </div>
+                            @enderror
+                        </label>
+
+                        <div class="mt-4">
                             <button type="submit"
-                                    class="flex w-full justify-center rounded-md border border-transparent bg-cyan-500 py-2.5 px-4 text-sm font-semibold text-white shadow-sm hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition duration-150 ease-in-out">
-                                Login
+                                    class="btn btn-block text-white bg-pastelOrange hover:bg-opacity-80 border-none shadow-md transition duration-150 ease-in-out">
+                                Login ke Akun Saya
                             </button>
                         </div>
                     </form>
 
-                    <div class="mt-6 text-sm text-center">
-                        <span class="text-gray-600">Forgot password? </span>
+                    <div class="mt-8 text-sm text-center">
+                        <span class="text-gray-500">Lupa password Anda? <a href="#" class="text-greenSlate font-semibold">Reset Password</a></span>
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="font-semibold text-cyan-600 hover:text-cyan-500">
+                            <a href="{{ route('password.request') }}" class="font-semibold text-pastelOrange hover:underline">
                                 Reset Password
                             </a>
                         @endif
                     </div>
                 </div>
             </div>
-
-            <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-cyan-50 via-white to-blue-50 items-center justify-center p-8 lg:p-12">
-                 <div class="relative w-full max-w-md">
-                     <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 z-10">
-                        <div class="bg-white p-3 rounded-full shadow-lg">
-                            <img src="{{ asset('img/logo-borrowbox.svg') }}" alt="BorrowBox Logo" class="w-12 h-12">
-                        </div>
-                     </div>
-
-                    <img src="{{ asset('img/prototype.png') }}" alt="BorrowBox"
-                         class="rounded-lg shadow-xl w-full mt-8">
-            </div>
-
         </div>
     </div>
 </div>
