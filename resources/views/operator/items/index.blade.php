@@ -39,6 +39,7 @@
                     <th>Nama Barang</th>
                     <th>Kategori</th>
                     <th>Deskripsi</th>
+                    <th class="text-center">Stok Tersedia</th>
                     <th class="text-center">Stok Total</th>
                     <th class="text-center">Status & Aksi</th>
                 </tr>
@@ -67,6 +68,9 @@
                         </td>
                         <td>{{ $item->category->name ?? 'N/A' }}</td>
                         <td>{{ Str::limit($item->description, 70, '...') ?? '-' }}</td>
+                        <td class="text-center whitespace-nowrap">
+                            <span class="badge badge-secondary">{{ $item->available_quantity }}</span>
+                        </td>
                         <td class="text-center">
                             <span class="badge badge-neutral badge-lg">{{ $item->quantity }}</span>
                         </td>

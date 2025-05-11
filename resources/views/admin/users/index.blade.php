@@ -4,7 +4,7 @@
 @section('content')
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl lg:text-3xl font-bold text-gray-800">
-            Manage Accounts
+            Pengelolaan Akun
         </h1>
         <button class="btn bg-pastelOrange text-white btn-sm" onclick="create_user_modal.showModal()">
              <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
