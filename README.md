@@ -127,7 +127,7 @@ Ikuti panduan ini untuk menjalankan BorrowBox di lingkungan pengembangan lokal A
 * Notifikasi Status Peminjaman
 * Riwayat Peminjaman
 * Pencarian Barang Mudah
-* Desain Responsif
+* Desain Responsive
 
 
 ---
