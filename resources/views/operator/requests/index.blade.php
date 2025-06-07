@@ -20,9 +20,9 @@
                 </div>
                 <select name="status_filter" class="select select-bordered select-sm w-full max-w-xs">
                     <option value="all_active" {{ request('status_filter', 'all_active') == 'all_active' ? 'selected' : '' }}>Semua Aktif</option>
-                    <option value="pending" {{ request('status_filter') == 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="approved" {{ request('status_filter') == 'approved' ? 'selected' : '' }}>Approved</option>
-                    <option value="borrowed" {{ request('status_filter') == 'borrowed' ? 'selected' : '' }}>Borrowed</option>
+                    <option value="pending" {{ request('status_filter') == 'pending' ? 'selected' : '' }}>Menunggu</option>
+                    <option value="approved" {{ request('status_filter') == 'approved' ? 'selected' : '' }}>Disetujui</option>
+                    <option value="borrowed" {{ request('status_filter') == 'borrowed' ? 'selected' : '' }}>Dipinjam</option>
                 </select>
             </label>
             <button type="submit" class="btn btn-sm bg-pastelOrange text-white">Filter</button> {{-- Warna tombol disesuaikan --}}
@@ -32,24 +32,25 @@
         </form>
     </div>
 
-    @if (session('success'))
-        <div id="alert-success" role="alert" class="alert alert-success mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <span>{{ session('success') }}</span>
-        </div>
+     @if (session('success'))
+    <div id="alert-success" role="alert" class="alert alert-success mb-4">
+        <span class="iconify w-5 h-5" data-icon="ep:success-filled"></span>
+        <span>{{ session('success') }}</span>
+    </div>
+    @endif
+    
+    @if (session('error'))
+    <div id="alert-error" role="alert" class="alert alert-error mb-4">
+        <span class="iconify w-5 h-5" data-icon="material-symbols:error-rounded"></span>
+        <span>{{ session('error') }}</span>
+    </div>
     @endif
 
-    @if (session('error'))
-        <div id="alert-error" role="alert" class="alert alert-error mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-     @if (!$errors->isEmpty())
-        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition role="alert" class="alert alert-warning mb-4">
-             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-            <span> Gagal memproses permintaan. Error: {{ $errors->first() }}</span>
-        </div>
+    @if ($errors->any())
+    <div id="alert-validation" role="alert" class="alert alert-warning mb-4">
+        <span class="iconify w-5 h-5" data-icon="typcn:warning"></span>
+        <span> Gagal memproses permintaan.</span>
+    </div>
     @endif
 
     <div class="bg-white shadow-md rounded-lg overflow-x-auto">
@@ -124,7 +125,7 @@
                                      @method('PATCH')
                                      <button type="submit" class="btn btn-xs btn-info" title="Tandai Sudah Dikembalikan">
                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
-                                         Kembali
+                                         Dikembalikan
                                      </button>
                                  </form>
                             @else

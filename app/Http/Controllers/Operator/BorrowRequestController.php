@@ -28,7 +28,7 @@ class BorrowRequestController extends Controller
             });
         }
 
-        $borrowRequests = $query->latest('request_date')->paginate(10);
+        $borrowRequests = $query->latest('request_date')->paginate(7);
         return view('operator.requests.index', compact('borrowRequests'));
     }
 
@@ -45,7 +45,7 @@ class BorrowRequestController extends Controller
         if ($request->filled('status_history') && $request->status_history !== 'all') {
             $query->where('status', $request->status_history);
         }
-        $borrowRequests = $query->latest('request_date')->paginate(10);
+        $borrowRequests = $query->latest('request_date')->paginate(7);
         return view('operator.borrower.index', compact('borrowRequests'));
     }
 

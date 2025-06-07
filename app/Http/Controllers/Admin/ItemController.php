@@ -35,7 +35,7 @@ class ItemController extends Controller
         Item::create($validatedData);
 
         return redirect()->route('admin.items.index')
-                         ->with('success', 'Item berhasil ditambahkan.');
+                         ->with('success', 'Barang berhasil ditambahkan.');
     }
 
     public function show(Item $item)
@@ -64,15 +64,15 @@ class ItemController extends Controller
         $item->update($validatedData);
 
         return redirect()->route('admin.items.index')
-                         ->with('success', 'Item berhasil diperbarui.');
+                         ->with('success', 'Barang berhasil diperbarui.');
     }
 
     public function destroy(Item $item)
     {
-        // if ($item->borrowRequests()->whereIn('status', ['approved', 'borrowed'])->exists()) {
-        //     return redirect()->route('admin.items.index')
-        //                     ->with('error', 'Gagal menghapus item karena sedang dipinjam.');
-        // }
+        if ($item->borrowItems()->exists()) {
+            return redirect()->route('admin.items.index')
+                            ->with('error', 'Tidak dapat menghapus barang, karena terdapat riwayat peminjaman.');
+        }
 
         try {
             if ($item->image && Storage::disk('public')->exists($item->image)) {
@@ -82,11 +82,10 @@ class ItemController extends Controller
             $item->delete();
 
             return redirect()->route('admin.items.index')
-                             ->with('success', 'Item berhasil dihapus.');
-
+                            ->with('success', 'Barang berhasil dihapus.');
         } catch (\Exception $e) {
-             return redirect()->route('admin.items.index')
-                              ->with('error', 'Gagal menghapus item. Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->route('admin.items.index')
+                            ->with('error', 'Gagal menghapus barang. Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

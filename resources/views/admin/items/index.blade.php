@@ -1,102 +1,95 @@
 @extends('layouts.admin')
 
-@section('title', 'Manage Items')
-
-@push('styles')
-@endpush
+@section('title', 'Pengelolaan Barang')
 
 @section('content')
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <h1 class="text-2xl lg:text-3xl font-bold text-gray-800">
             Pengelolaan Barang
         </h1>
-        <button class="btn bg-pastelOrange text-white btn-sm" onclick="create_item_modal.showModal()">
+        <button class="btn bg-pastelOrange text-white btn-sm w-full sm:w-auto" onclick="create_item_modal.showModal()">
             <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                  stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            Tambah Item
+            Tambah Barang
         </button>
     </div>
 
-
     @if (session('success'))
-        <div id="alert-success" role="alert" class="alert alert-success mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>{{ session('success') }}</span>
-        </div>
+    <div id="alert-success" role="alert" class="alert alert-success mb-4">
+        <span class="iconify w-5 h-5" data-icon="ep:success-filled"></span>
+        <span>{{ session('success') }}</span>
+    </div>
     @endif
-
+    
     @if (session('error'))
-        <div id="alert-error" role="alert" class="alert alert-error mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>{{ session('error') }}</span>
-        </div>
+    <div id="alert-error" role="alert" class="alert alert-error mb-4">
+        <span class="iconify w-5 h-5" data-icon="material-symbols:error-rounded"></span>
+        <span>{{ session('error') }}</span>
+    </div>
     @endif
 
     @if ($errors->any())
-        <div id="alert-validation" role="alert" class="alert alert-warning mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            <span> Gagal menambahkan user. Silakan klik 'Tambah User' lagi dan periksa error pada form.</span>
-        </div>
-       @endif
-
+    <div id="alert-validation" role="alert" class="alert alert-warning mb-4">
+        <span class="iconify w-5 h-5" data-icon="typcn:warning"></span>
+        <span> Gagal menambahkan barang. Silakan klik 'Tambah Barang' lagi dan periksa error pada form.</span>
+    </div>
+    @endif
 
     <div class="bg-white shadow-md rounded-lg overflow-x-auto">
-        <table class="table w-full table-zebra">
+        <table class="table table-zebra w-full min-w-[1000px] lg:min-w-full">
             <thead class="text-xs text-white uppercase bg-compound">
                 <tr>
-                    <th>No</th>
-                    <th>Gambar</th>
-                    <th>Nama Barang</th>
-                    <th>Kategori</th>
-                    <th>Deskripsi</th>
-                    <th class="text-center">Stok Total</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Action</th>
+                    <th class="px-4 py-3 whitespace-nowrap w-[5%]">No</th>
+                    <th class="px-4 py-3 whitespace-nowrap w-[10%]">Gambar</th>
+                    <th class="px-4 py-3 whitespace-nowrap w-[20%] min-w-[150px]">Nama Barang</th>
+                    <th class="px-4 py-3 whitespace-nowrap w-[15%] min-w-[120px]">Kategori</th>
+                    <th class="px-4 py-3 whitespace-nowrap w-[25%] min-w-[250px]">Deskripsi</th>
+                    <th class="px-4 py-3 text-center whitespace-nowrap w-[10%]">Stok Total</th>
+                    <th class="px-4 py-3 text-center whitespace-nowrap w-[10%]">Status</th>
+                    <th class="px-4 py-3 text-center whitespace-nowrap w-[15%] min-w-[130px]">Action</th>
                 </tr>
             </thead>
             <tbody class="text-black">
                 @forelse ($items as $item)
                     <tr class="hover">
-                        <td>{{ $loop->iteration + ($items->currentPage() - 1) * $items->perPage() }}</td>
-                        <td>
+                        <td class="px-4 py-3 whitespace-nowrap">{{ $loop->iteration + ($items->currentPage() - 1) * $items->perPage() }}</td>
+                        <td class="px-4 py-3">
                             @if($item->image)
-                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
-                                     class="w-12 h-12 object-cover rounded">
+                                <div class="avatar">
+                                    <div class="w-12 h-12 rounded">
+                                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" />
+                                    </div>
+                                </div>
                             @else
-                                <div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">No
-                                    Image</div>
+                                <div class="avatar placeholder">
+                                     <div class="bg-neutral-focus text-neutral-content rounded w-12 h-12 flex items-center justify-center">
+                                        <span class="text-xs">No Img</span>
+                                    </div>
+                                </div>
                             @endif
                         </td>
-                        <td>
-                            <div class="font-bold">{{ $item->name }}</div>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <div class="font-bold text-sm">{{ $item->name }}</div>
                         </td>
-                        <td>{{ $item->category->name ?? 'N/A' }}</td>
-                        <td>{{ Str::limit($item->description, 50, '...') ?? '-' }}</td>
-                        <td class="text-center">
-                            <span class="badge badge-neutral badge-lg">{{ $item->quantity }}</span>
+                        <td class="px-4 py-3 whitespace-nowrap">{{ $item->category->name ?? 'N/A' }}</td>
+                        <td class="px-4 py-3">
+                            {{ Str::limit($item->description, 70, '...') ?? '-' }}
                         </td>
-                        <td class="text-center">
+                        <td class="px-4 py-3 text-center whitespace-nowrap">
+                            <span class="badge badge-neutral">{{ $item->quantity }}</span>
+                        </td>
+                        <td class="px-4 py-3 text-center whitespace-nowrap">
                             <span class="badge badge-sm {{ $item->status === 'tersedia' ? 'badge-success' : 'badge-error' }}">
                                 {{ ucfirst($item->status) }}
                             </span>
                         </td>
-                        <td class="text-center whitespace-nowrap">
+                        <td class="px-4 py-3 text-center whitespace-nowrap">
                             <button class="btn btn-xs btn-outline btn-info mr-1"
-                                onclick="edit_item_modal_{{ $item->id }}.showModal()">
+                                    onclick="edit_item_modal_{{ $item->id }}.showModal()">
                                 Edit
                             </button>
-
                             <form action="{{ route('admin.items.destroy', $item) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
@@ -106,11 +99,11 @@
                             </form>
                         </td>
                     </tr>
-                    @include('admin.items.edit', ['item' => $item])
+                    @include('admin.items.edit', ['item' => $item, 'categories' => $categories ?? []])
                 @empty
                     <tr>
                         <td colspan="8" class="text-center py-4">
-                            Tidak ada data item ditemukan.
+                            Data barang tidak ditemukan.
                         </td>
                     </tr>
                 @endforelse
@@ -118,15 +111,12 @@
         </table>
     </div>
 
-    <div class="mt-6 flex justify-end">
+    <div class="mt-6 flex justify-center sm:justify-end">
         @if ($items->hasPages())
             {{ $items->links() }}
         @endif
     </div>
 
-    @include('admin.items.create')
+    @include('admin.items.create', ['categories' => $categories ?? []])
 
 @endsection
-
-@push('scripts')
-@endpush

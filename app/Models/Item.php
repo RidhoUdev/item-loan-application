@@ -56,4 +56,9 @@ class Item extends Model
         return $this->belongsToMany(BorrowRequest::class, 'borrow_items')
         ->withPivot('quantity');
     }
+
+    public function borrowItems()
+    {
+        return $this->hasMany(BorrowItem::class);
+    }
 }

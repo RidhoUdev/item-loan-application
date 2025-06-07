@@ -35,7 +35,7 @@
                     <th>Tgl. Kembali Aktual</th>
                     <th class="text-center">Status</th>
                     <th>Operator</th>
-                    {{-- <th>Aksi</th> --}}
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody class="text-black">
@@ -66,15 +66,15 @@
                             <span class="badge {{ $badgeClass }} badge-md">{{ ucfirst($status) }}</span>
                         </td>
                         <td>{{ $request->operator->name ?? '-' }}</td>
-                        {{-- <td class="whitespace-nowrap">
+                        <td class="whitespace-nowrap">
                             @if($request->status === 'pending')
                                 <form action="{{ route('user.borrow.cancel', $request) }}" method="POST" onsubmit="return confirm('Batalkan permintaan ini?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-xs btn-outline btn-error">Batalkan</button>
+                                    <button type="submit" class="btn btn-xs btn-outline btn-error cancel-button">Batalkan</button>
                                 </form>
                             @endif
-                        </td> --}}
+                        </td>
                     </tr>
                 @empty
                     <tr>

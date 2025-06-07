@@ -35,15 +35,18 @@
         </form>
     </div>
 
-    @if (session('success'))
-        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition role="alert" class="alert alert-success mb-4">
-            <span>{{ session('success') }}</span>
-        </div>
+     @if (session('success'))
+    <div id="alert-success" role="alert" class="alert alert-success mb-4">
+        <span class="iconify w-5 h-5" data-icon="ep:success-filled"></span>
+        <span>{{ session('success') }}</span>
+    </div>
     @endif
+    
     @if (session('error'))
-         <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition role="alert" class="alert alert-error mb-4">
-            <span>{{ session('error') }}</span>
-        </div>
+    <div id="alert-error" role="alert" class="alert alert-error mb-4">
+        <span class="iconify w-5 h-5" data-icon="material-symbols:error-rounded"></span>
+        <span>{{ session('error') }}</span>
+    </div>
     @endif
 
     <div class="bg-white shadow-md rounded-lg overflow-x-auto">

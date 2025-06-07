@@ -10,28 +10,28 @@
              <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
              </svg>
-            Tambah User
+            Tambah Pengguna
         </button>
     </div>
 
     @if (session('success'))
     <div id="alert-success" role="alert" class="alert alert-success mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span class="iconify w-5 h-5" data-icon="ep:success-filled"></span>
         <span>{{ session('success') }}</span>
     </div>
     @endif
-
+    
     @if (session('error'))
     <div id="alert-error" role="alert" class="alert alert-error mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span class="iconify w-5 h-5" data-icon="material-symbols:error-rounded"></span>
         <span>{{ session('error') }}</span>
     </div>
     @endif
 
     @if ($errors->any())
     <div id="alert-validation" role="alert" class="alert alert-warning mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-        <span> Gagal menambahkan user. Silakan klik 'Tambah User' lagi dan periksa error pada form.</span>
+        <span class="iconify w-5 h-5" data-icon="typcn:warning"></span>
+        <span> Gagal menambahkan pengguna. Silakan klik 'Tambah Pengguna' lagi dan periksa error pada form.</span>
     </div>
     @endif
 
@@ -55,7 +55,7 @@
                             <div class="text-xs text-gray-500">{{ $user->email ?? '' }}</div>
                         </td>
                         <td>{{ $user->username }}</td>
-                        <td>{{ $user->phone ?? '-' }}</td>
+                        <td class="whitespace-nowrap">{{ $user->phone ?? '-' }}</td>
                         <td class="font-semibold">
                              <span class="badge badge-sm text-white
                                 {{ $user->role === 'admin' ? 'badge-error' :

@@ -80,4 +80,27 @@ class BorrowRequestController extends Controller
                 ->withInput();
         }
     }
+
+    public function cancel(BorrowRequest $borrowRequest)
+    {
+        if (Auth::id() !== $borrowRequest->borrower_id) {
+            abort(403, 'Anda tidak memiliki izin untuk membatalkan permintaan ini.');
+        }
+
+        if ($borrowRequest->status !== 'pending') {
+            return redirect()->route('user.pending')
+                             ->with('error', 'Permintaan ini tidak dapat dibatalkan karena sudah diproses oleh operator.');
+        }
+
+        try {
+            $borrowRequest->delete();
+
+            return redirect()->route('user.pending')
+                             ->with('success', 'Permintaan peminjaman berhasil dibatalkan.');
+
+        } catch (\Exception $e) {
+            return redirect()->route('user.pending')
+                             ->with('error', 'Gagal membatalkan permintaan. Terjadi kesalahan sistem.');
+        }
+    }
 }

@@ -1,72 +1,122 @@
 <x-form-modal id="edit_item_modal_{{ $item->id }}" title="Edit Item: {{ $item->name }}" maxWidth="max-w-3xl">
 
-    <form id="edit_item_form_content_{{ $item->id }}" method="POST" action="{{ route('admin.items.update', $item) }}" class="space-y-4" enctype="multipart/form-data">
+    <form id="edit_item_form_content_{{ $item->id }}" method="POST" action="{{ route('admin.items.update', $item) }}"
+        class="space-y-4" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <label class="form-control w-full">
             <div class="label block"> <span class="label-text">Nama Barang<span class="text-error">*</span></span> </div>
-            <input type="text" name="name" placeholder="Masukkan nama barang" value="{{ old('name', $item->name) }}"
-                   class="input input-bordered w-full @error('name') input-error @enderror" required />
-            @error('name') <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div> @enderror
+            <input type="text" name="name" placeholder="Masukkan nama barang"
+                value="{{ old('name', $item->name) }}"
+                class="input input-bordered w-full @error('name') input-error @enderror" required />
+            @error('name')
+                <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div>
+            @enderror
         </label>
 
         <label class="form-control w-full">
             <div class="label block"> <span class="label-text">Kategori<span class="text-error">*</span></span> </div>
-            <select name="category_id" class="select select-bordered w-full @error('category_id') select-error @enderror" required>
+            <select name="category_id"
+                class="select select-bordered w-full @error('category_id') select-error @enderror" required>
                 @foreach ($categories ?? [] as $category)
-                    <option value="{{ $category->id }}" {{ old('category_id', $item->category_id) == $category->id ? 'selected' : '' }}>
+                    <option value="{{ $category->id }}"
+                        {{ old('category_id', $item->category_id) == $category->id ? 'selected' : '' }}>
                         {{ $category->name }}
                     </option>
                 @endforeach
             </select>
-             @error('category_id') <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div> @enderror
+            @error('category_id')
+                <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div>
+            @enderror
         </label>
 
         <label class="form-control w-full">
             <div class="label block"> <span class="label-text">Deskripsi<span class="text-error">*</span></span> </div>
-            <textarea name="description" class="textarea textarea-bordered w-full h-24 @error('description') textarea-error @enderror"
-                      placeholder="Deskripsi detail barang" required>{{ old('description', $item->description) }}</textarea>
-            @error('description') <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div> @enderror
+            <textarea name="description"
+                class="textarea textarea-bordered w-full h-24 @error('description') textarea-error @enderror"
+                placeholder="Deskripsi detail barang" required>{{ old('description', $item->description) }}</textarea>
+            @error('description')
+                <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div>
+            @enderror
         </label>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <label class="form-control w-full">
-                <div class="label block"> <span class="label-text">Jumlah Stok<span class="text-error">*</span></span> </div>
-                <input type="number" name="quantity" placeholder="0" value="{{ old('quantity', $item->quantity) }}" min="0"
-                       class="input input-bordered w-full @error('quantity') input-error @enderror" required />
-                @error('quantity') <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div> @enderror
+                <div class="label block"> <span class="label-text">Jumlah Stok<span class="text-error">*</span></span>
+                </div>
+                <input type="number" name="quantity" placeholder="0" value="{{ old('quantity', $item->quantity) }}"
+                    min="0" class="input input-bordered w-full @error('quantity') input-error @enderror"
+                    required />
+                @error('quantity')
+                    <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div>
+                @enderror
             </label>
 
             <label class="form-control w-full">
                 <div class="label block"> <span class="label-text">Status<span class="text-error">*</span></span> </div>
-                <select name="status" class="select select-bordered w-full @error('status') select-error @enderror" required>
-                    <option value="tersedia" {{ old('status', $item->status) == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
-                    <option value="tidak tersedia" {{ old('status', $item->status) == 'tidak tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
+                <select name="status" class="select select-bordered w-full @error('status') select-error @enderror"
+                    required>
+                    <option value="tersedia" {{ old('status', $item->status) == 'tersedia' ? 'selected' : '' }}>
+                        Tersedia</option>
+                    <option value="tidak tersedia"
+                        {{ old('status', $item->status) == 'tidak tersedia' ? 'selected' : '' }}>Tidak Tersedia
+                    </option>
                 </select>
-                 @error('status') <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div> @enderror
+                @error('status')
+                    <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div>
+                @enderror
             </label>
         </div>
 
         <label class="form-control w-full">
             <div class="label block"> <span class="label-text">Ganti Gambar (Opsional)</span> </div>
-             @if($item->image)
-               <div class="mb-2">
-                   <img src="{{ asset('storage/' . $item->image) }}" alt="Current Image" class="w-20 h-20 object-cover rounded">
-                   <span class="text-xs text-gray-500">Gambar saat ini. Upload baru untuk mengganti.</span>
-               </div>
-             @endif
-            <input type="file" name="image" class="file-input file-input-bordered w-full @error('image') file-input-error @enderror" />
+            <input type="file" name="image" id="image_input_{{ $item->id }}"
+                class="file-input file-input-bordered w-full @error('image') file-input-error @enderror"
+                accept="image/*" />
             <div class="label block">
-                 <span class="label-text-alt">Format: jpg, png, jpeg, gif, svg, webp. Max: 2MB</span>
+                <span class="label-text-alt">Format: jpg, png, jpeg, gif, svg, webp. Max: 2MB</span>
             </div>
-            @error('image') <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div> @enderror
+            @error('image')
+                <div class="label block"> <span class="label-text-alt text-error">{{ $message }}</span> </div>
+            @enderror
         </label>
+
+        <div class="w-full mt-2 image-preview-wrapper" data-item-id="{{ $item->id }}">
+            <div
+                class="relative w-full h-20 rounded-lg border-2 border-dashed border-base-300 flex items-center justify-center">
+
+                <div id="placeholder_preview_{{ $item->id }}"
+                    class="text-center text-base-content text-opacity-60 {{ $item->image ? 'hidden' : '' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span class="text-xs">Preview Gambar</span>
+                </div>
+
+                <img id="image_preview_{{ $item->id }}"
+                    src="{{ $item->image ? asset('storage/' . $item->image) : '#' }}"
+                    data-original-src="{{ $item->image ? asset('storage/' . $item->image) : '' }}" alt="Preview Gambar"
+                    class="absolute h-20 w-20 rounded-lg object-cover {{ $item->image ? '' : 'hidden' }}" />
+
+                <button type="button" id="reset_image_button_{{ $item->id }}"
+                    class="btn btn-circle btn-xs absolute top-2 right-2 bg-red-500 text-white hover:bg-red-600 border-none {{ $item->image ? '' : 'hidden' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
 
     </form>
 
     <x-slot name="actions">
-        <button type="submit" form="edit_item_form_content_{{ $item->id }}" class="btn btn-primary">Update</button>
+        <button type="submit" form="edit_item_form_content_{{ $item->id }}"
+            class="btn btn-primary">Update</button>
         <form method="dialog" class="inline">
             <button class="btn btn-ghost">Batal</button>
         </form>

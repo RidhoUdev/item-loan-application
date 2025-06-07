@@ -37,10 +37,10 @@
                 </div>
                 <h2 class="card-title text-4xl font-bold">{{ $notReturnedItemsCount }}</h2>
                 <p class="font-semibold">Barang Belum Dikembalikan</p>
-                <p class="text-sm opacity-80">(Status: Approved/Borrowed)</p>
+                <p class="text-sm opacity-80">(Status: Disetujui/Dipinjam)</p>
                  <div class="card-actions justify-end mt-4">
-                    <a href="{{ route('operator.requests.index', ['status_filter' => 'approved']) }}" class="btn btn-xs btn-outline border-current hover:bg-white hover:text-info">Lihat Approved</a>
-                    <a href="{{ route('operator.requests.index', ['status_filter' => 'borrowed']) }}" class="btn btn-xs btn-outline border-current hover:bg-white hover:text-info">Lihat Borrowed</a>
+                    <a href="{{ route('operator.requests.index', ['status_filter' => 'approved']) }}" class="btn btn-xs btn-outline border-current hover:bg-white hover:text-info">Lihat Disetujui</a>
+                    <a href="{{ route('operator.requests.index', ['status_filter' => 'borrowed']) }}" class="btn btn-xs btn-outline border-current hover:bg-white hover:text-info">Lihat Dipinjam</a>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 </div>
                 <h2 class="card-title text-4xl font-bold">{{ $returnedItemsCount }}</h2>
                 <p class="font-semibold">Barang Sudah Dikembalikan</p>
-                 <p class="text-sm opacity-80">(Status: Returned)</p>
+                 <p class="text-sm opacity-80">(Status: Dikembalikan)</p>
                 <div class="card-actions justify-end mt-4">
                     <a href="{{ route('operator.borrower.history.index', ['status_history' => 'returned']) }}" class="btn btn-sm btn-outline border-current hover:bg-white hover:text-success">Lihat Histori</a>
                 </div>
@@ -62,9 +62,4 @@
         </div>
 
     </div>
-
-    <div class="mt-8">
-        {{-- <h2 class="text-xl font-semibold text-gray-700 mb-4">Aksi Cepat</h2> --}}
-    </div>
-
 @endsection
