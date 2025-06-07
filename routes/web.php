@@ -21,7 +21,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\BorrowRequestController as UserBorrowRequestController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome-page');
 });
 
 Route::get('/login', [AuthenticationController::class, 'showFormLogin'])->name('login')->middleware('guest');
@@ -56,8 +56,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':operator'])
 // User
 Route::middleware(['auth', RoleMiddleware::class . ':user'])
     ->prefix('user')->name('user.')->group(function () {
+        Route::get('/home', [UserController::class, 'homepage'])->name('home');
         Route::get('/items', [UserItemController::class, 'index'])->name('items.index');
         Route::get('/my-requests', [UserController::class, 'myRequests'])->name('pending');
         Route::get('/borrow/create', [UserBorrowRequestController::class, 'create'])->name('borrow.create');
         Route::post('/borrow', [UserBorrowRequestController::class, 'store'])->name('borrow.store');
+        Route::delete('/borrow-requests/{borrowRequest}/cancel', [UserBorrowRequestController::class, 'cancel'])->name('borrow.cancel');
 });

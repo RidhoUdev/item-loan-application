@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticationController extends Controller
 {
@@ -20,6 +22,9 @@ class AuthenticationController extends Controller
         $validator = Validator::make($request->all(), [
             'login_identifier' => 'required|string',
             'password' => 'required|string',
+        ],[
+            'login_identifier.required' => 'Email atau username wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
         ]);
 
         if ($validator->fails()) {
@@ -29,28 +34,42 @@ class AuthenticationController extends Controller
         }
 
         $loginInput = $request->input('login_identifier');
+        $passwordInput = $request->input('password');
         $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+
+        $user = User::where($fieldType, $loginInput)->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'login_identifier' => ['Email atau username yang Anda masukkan salah.'],
+            ]);
+        }
 
         $credentials = [
             $fieldType => $loginInput,
-            'password' => $request->input('password'),
+            'password' => $passwordInput,
         ];
 
         $remember = $request->boolean('remember'); 
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            $user = Auth::user();
+            $loggedInUser = Auth::user();
 
-            if ($user->role === 'admin') {
+            if ($loggedInUser->role === 'admin') {
                 return redirect()->intended(route('admin.dashboard'));
-            } elseif ($user->role === 'operator') {
+            } elseif ($loggedInUser->role === 'operator') {
                 return redirect()->intended(route('operator.dashboard'));
             } else {
-                return redirect()->intended(route('user.items.index'));
+                return redirect()->intended(route('user.home'));
             }
 
         }
+
+        throw ValidationException::withMessages([
+            'password' => ['Password yang Anda masukkan salah.'],
+        ]);
     }
 
     public function logout(Request $request)
