@@ -16,24 +16,23 @@
 
     @stack('styles')
 </head>
-<body class="font-sans antialiased bg-neutralize">
-    <div class="max-w-400 mx-auto">
-        <div class="flex min-h-screen">
+<body class="font-sans antialiased bg-neutralize"> 
 
-            @include('partials.operator.sidebar')
+    <div class="flex min-h-screen">
 
-            <div class="flex-1 flex flex-col">
+        @include('partials.operator.sidebar')
+        <div id="mainContent" class="flex-1 flex flex-col bg-gray-100 overflow-hidden">
 
-                @include('partials.operator.navbar')
-
-                <main class="flex-1 p-6 lg:p-8">
+            @include('partials.operator.navbar')
+            <div id="sidebarBackdrop" class="fixed inset-0 bg-black opacity-45 z-20 hidden lg:hidden"></div>
+            <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+                <div class="w-full max-w-screen-xl mx-auto">
                     @yield('content')
-                </main>
+                </div>
+            </main>
 
-            </div>
         </div>
     </div>
-
     @stack('scripts')
 </body>
 </html>

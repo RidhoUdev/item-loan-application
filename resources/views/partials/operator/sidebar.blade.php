@@ -1,5 +1,8 @@
-<aside class="w-64 min-h-screen bg-greenSlate text-gray-800 p-4 flex flex-col shadow-lg">
-    <div class="flex items-center gap-8 mb-8">
+<aside id="adminSidebar" class="fixed inset-y-0 left-0 z-40 w-64 min-h-screen bg-greenSlate text-gray-800 p-4 flex flex-col shadow-lg
+              transform -translate-x-full transition-transform duration-300 ease-in-out
+              lg:translate-x-0 lg:static lg:inset-auto"
+       aria-label="Sidebar">
+    <div class="flex items-center gap-3 mb-8">
         <img src="{{ asset('img/logo-gopinjam.svg') }}" class="w-16">
         <span class="text-xl font-bold text-white">GoPinjam</span>
     </div>
