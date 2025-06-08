@@ -71,7 +71,7 @@
                 @forelse ($borrowRequests as $request)
                     <tr class="hover">
                         <td>#{{ $request->id }}</td>
-                        <td>{{ $request->borrower->name ?? 'N/A' }} <br> <span class="text-xs text-gray-500">{{ $request->borrower->email ?? '' }}</span></td>
+                        <td><span class="font-semibold">{{ $request->borrower->name ?? 'N/A' }}</span><br> <span class="text-xs text-gray-500">{{ $request->borrower->email ?? '' }}</span></td>
                         <td>{{ $request->request_date ? \Carbon\Carbon::parse($request->request_date)->isoFormat('D MMM YY, HH:mm') : '-' }}</td>
                         <td>
                             <ul class="list-disc list-inside text-xs">

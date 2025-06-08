@@ -2,23 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
-use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\User\UserController;
 
 // Admin Controller
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ItemController as AdminItemController;
-use App\Http\Controllers\Admin\UserController as AdminUserManagementController;
+use App\Http\Controllers\Operator\OperatorController;
+use App\Http\Controllers\User\NotificationController;
 
 // Operator Controller
-use App\Http\Controllers\Operator\OperatorController;
-use App\Http\Controllers\Operator\BorrowRequestController as OperatorBorrowRequestController;
-use App\Http\Controllers\Operator\ItemController as OperatorItemController;
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\User\ItemController as UserItemController;
+use App\Http\Controllers\Admin\ItemController as AdminItemController;
 
 // User Controller
-use App\Http\Controllers\User\ItemController as UserItemController;
-use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Operator\ItemController as OperatorItemController;
+use App\Http\Controllers\Admin\UserController as AdminUserManagementController;
 use App\Http\Controllers\User\BorrowRequestController as UserBorrowRequestController;
+use App\Http\Controllers\Operator\BorrowRequestController as OperatorBorrowRequestController;
 
 Route::get('/', function () {
     return view('welcome-page');
@@ -51,6 +52,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':operator'])
         Route::patch('/requests/{borrowRequest}/borrowed', [OperatorBorrowRequestController::class, 'markAsBorrowedOut'])->name('requests.markBorrowed');
         Route::patch('/requests/{borrowRequest}/return', [OperatorBorrowRequestController::class, 'markAsReturned'])->name('requests.return');
         Route::get('/borrower-history', [OperatorBorrowRequestController::class, 'borrowerHistory'])->name('borrower.history.index');
+        Route::post('/borrower-history/{borrowRequest}/send-reminder', [OperatorBorrowRequestController::class, 'sendReturnReminder'])->name('borrower.send-reminder');
 });
 
 // User
@@ -62,4 +64,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':user'])
         Route::get('/borrow/create', [UserBorrowRequestController::class, 'create'])->name('borrow.create');
         Route::post('/borrow', [UserBorrowRequestController::class, 'store'])->name('borrow.store');
         Route::delete('/borrow-requests/{borrowRequest}/cancel', [UserBorrowRequestController::class, 'cancel'])->name('borrow.cancel');
+        Route::prefix('notifications')->name('notifications.')->group(function () {
+            Route::get('/mark-as-read/{notification}', [NotificationController::class, 'markAsRead'])->name('markAsRead');
+            Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('markAllAsRead');
+        });
 });

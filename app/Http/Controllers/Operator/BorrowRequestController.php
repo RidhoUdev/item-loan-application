@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Operator;
 
-use App\Http\Controllers\Controller;
-use App\Models\BorrowRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\BorrowRequest;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\BorrowRequestApproved;
+use App\Notifications\ReturnReminderNotification;
 
 class BorrowRequestController extends Controller
 {
@@ -60,6 +62,10 @@ class BorrowRequestController extends Controller
             $borrowRequest->status = 'approved';
             $borrowRequest->operator_id = Auth::id();
             $borrowRequest->save();
+            $borrower = $borrowRequest->borrower;
+            if ($borrower) {
+                $borrower->notify(new BorrowRequestApproved($borrowRequest));
+            }
             DB::commit();
             return redirect()->route('operator.requests.index')
                              ->with('success', "Permintaan #{$borrowRequest->id} berhasil disetujui. User dapat mengambil barang.");
@@ -125,6 +131,28 @@ class BorrowRequestController extends Controller
             DB::rollBack();
             return redirect()->route('operator.requests.index')
                              ->with('error', "Gagal menandai permintaan #{$borrowRequest->id} sebagai dikembalikan. Error: " . $e->getMessage());
+        }
+    }
+
+    public function sendReturnReminder(BorrowRequest $borrowRequest)
+    {
+        if ($borrowRequest->status !== 'borrowed') {
+            return back()->with('error', 'Hanya peminjaman yang sedang berjalan yang bisa dikirimi pengingat.');
+        }
+
+        try {
+            $borrower = $borrowRequest->borrower;
+
+            if (!$borrower) {
+                return back()->with('error', 'Data peminjam tidak ditemukan.');
+            }
+
+            $borrower->notify(new ReturnReminderNotification($borrowRequest));
+
+            return back()->with('success', "Notifikasi pengingat berhasil dikirim ke {$borrower->name}.");
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal mengirim notifikasi pengingat. Terjadi kesalahan sistem.');
         }
     }
 }

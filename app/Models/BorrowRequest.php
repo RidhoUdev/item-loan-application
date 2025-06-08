@@ -21,6 +21,12 @@ class BorrowRequest extends Model
         'return_date'
     ];
 
+    protected $casts = [
+        'request_date'         => 'datetime',
+        'expected_return_date' => 'datetime',
+        'return_date'          => 'datetime',
+    ];
+
     public function borrower() :BelongsTo
     {
         return $this->belongsTo(User::class, 'borrower_id');

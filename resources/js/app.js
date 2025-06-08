@@ -380,3 +380,44 @@ function updateNavbarNotifications(newNotification = null) {
         }
     }
 }
+
+// Letakkan kode ini di dalam file js/app.js Anda
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const reminderButtons = document.querySelectorAll('.send-reminder-btn');
+    reminderButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const formId = this.dataset.formId;
+            const borrowerName = this.dataset.borrowerName;
+            const form = document.getElementById(formId);
+
+            if (!form) {
+                console.error('Form not found for this button:', this);
+                return;
+            }
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-info text-white ml-2",
+                    cancelButton: "btn btn-ghost"
+                },
+                buttonsStyling: false
+            });
+            swalWithBootstrapButtons.fire({
+                title: "Anda Yakin?",
+                text: `Kirim notifikasi pengingat ke "${borrowerName}"?`,
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Kirim!",
+                cancelButtonText: "Batal",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+});

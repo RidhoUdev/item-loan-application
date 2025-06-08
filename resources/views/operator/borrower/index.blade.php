@@ -13,40 +13,46 @@
                 <div class="label pt-0">
                     <span class="label-text">Cari Peminjam</span>
                 </div>
-                <input type="text" name="search_borrower" placeholder="Nama/Email Peminjam..." value="{{ request('search_borrower') }}" class="input input-bordered input-sm w-full max-w-xs" />
+                <input type="text" name="search_borrower" placeholder="Nama/Email Peminjam..."
+                    value="{{ request('search_borrower') }}" class="input input-bordered input-sm w-full max-w-xs" />
             </label>
             <label class="form-control w-full sm:w-auto">
                 <div class="label pt-0">
                     <span class="label-text">Filter Status</span>
                 </div>
                 <select name="status_history" class="select select-bordered select-sm w-full max-w-xs">
-                    <option value="all" {{ request('status_history', 'all') == 'all' ? 'selected' : '' }}>Semua Status</option>
+                    <option value="all" {{ request('status_history', 'all') == 'all' ? 'selected' : '' }}>Semua Status
+                    </option>
                     <option value="pending" {{ request('status_history') == 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="approved" {{ request('status_history') == 'approved' ? 'selected' : '' }}>Approved</option>
-                    <option value="borrowed" {{ request('status_history') == 'borrowed' ? 'selected' : '' }}>Borrowed</option>
-                    <option value="returned" {{ request('status_history') == 'returned' ? 'selected' : '' }}>Returned</option>
-                    <option value="rejected" {{ request('status_history') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    <option value="approved" {{ request('status_history') == 'approved' ? 'selected' : '' }}>Approved
+                    </option>
+                    <option value="borrowed" {{ request('status_history') == 'borrowed' ? 'selected' : '' }}>Borrowed
+                    </option>
+                    <option value="returned" {{ request('status_history') == 'returned' ? 'selected' : '' }}>Returned
+                    </option>
+                    <option value="rejected" {{ request('status_history') == 'rejected' ? 'selected' : '' }}>Rejected
+                    </option>
                 </select>
             </label>
             <button type="submit" class="btn btn-sm bg-pastelOrange text-white">Cari</button>
-            @if(request()->has('search_borrower') || (request()->has('status_history') && request('status_history') !== 'all'))
+            @if (request()->has('search_borrower') || (request()->has('status_history') && request('status_history') !== 'all'))
                 <a href="{{ route('operator.borrower.history.index') }}" class="btn btn-sm btn-ghost">Reset</a>
             @endif
         </form>
     </div>
 
-     @if (session('success'))
-    <div id="alert-success" role="alert" class="alert alert-success mb-4">
-        <span class="iconify w-5 h-5" data-icon="ep:success-filled"></span>
-        <span>{{ session('success') }}</span>
-    </div>
+    @if (session('success'))
+        <div id="alert-success" role="alert" class="alert alert-success mb-4">
+            <span class="iconify w-5 h-5" data-icon="ep:success-filled"></span>
+            <span>{{ session('success') }}</span>
+        </div>
     @endif
-    
+
     @if (session('error'))
-    <div id="alert-error" role="alert" class="alert alert-error mb-4">
-        <span class="iconify w-5 h-5" data-icon="material-symbols:error-rounded"></span>
-        <span>{{ session('error') }}</span>
-    </div>
+        <div id="alert-error" role="alert" class="alert alert-error mb-4">
+            <span class="iconify w-5 h-5" data-icon="material-symbols:error-rounded"></span>
+            <span>{{ session('error') }}</span>
+        </div>
     @endif
 
     <div class="bg-white shadow-md rounded-lg overflow-x-auto">
@@ -61,6 +67,7 @@
                     <th>Tgl. Aktual Kembali</th>
                     <th class="text-center">Status</th>
                     <th>Diproses Oleh</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody class="text-black">
@@ -71,20 +78,23 @@
                             <div class="font-semibold">{{ $request->borrower->name ?? 'N/A' }}</div>
                             <div class="text-xs text-gray-500">{{ $request->borrower->email ?? '' }}</div>
                         </td>
-                        <td>{{ $request->request_date ? \Carbon\Carbon::parse($request->request_date)->isoFormat('D MMM YY, HH:mm') : '-' }}</td>
+                        <td>{{ $request->request_date ? \Carbon\Carbon::parse($request->request_date)->isoFormat('D MMM YY, HH:mm') : '-' }}
+                        </td>
                         <td>
                             <ul class="list-disc list-inside text-xs">
-                                @foreach($request->items as $item)
+                                @foreach ($request->items as $item)
                                     <li>{{ $item->name }} ({{ $item->pivot->quantity }} unit)</li>
                                 @endforeach
                             </ul>
                         </td>
-                        <td>{{ $request->expected_return_date ? \Carbon\Carbon::parse($request->expected_return_date)->isoFormat('D MMM YY') : '-' }}</td>
-                        <td>{{ $request->return_date ? \Carbon\Carbon::parse($request->return_date)->isoFormat('D MMM YY, HH:mm') : '-' }}</td>
+                        <td>{{ $request->expected_return_date ? \Carbon\Carbon::parse($request->expected_return_date)->isoFormat('D MMM YY') : '-' }}
+                        </td>
+                        <td>{{ $request->return_date ? \Carbon\Carbon::parse($request->return_date)->isoFormat('D MMM YY, HH:mm') : '-' }}
+                        </td>
                         <td class="text-center">
                             @php
                                 $status = $request->status;
-                                $badgeClass = match($status) {
+                                $badgeClass = match ($status) {
                                     'pending' => 'badge-warning',
                                     'approved' => 'badge-info',
                                     'borrowed' => 'badge-primary',
@@ -96,11 +106,26 @@
                             <span class="badge {{ $badgeClass }} badge-md">{{ ucfirst($status) }}</span>
                         </td>
                         <td>{{ $request->operator->name ?? '-' }}</td>
+                        <td>
+                            @if ($request->status === 'borrowed')
+                                <form id="reminder-form-{{ $request->id }}"
+                                    action="{{ route('operator.borrower.send-reminder', $request) }}" method="POST">
+                                    @csrf
+                                    <button type="button" class="btn btn-xs btn-error text-white send-reminder-btn py-4"
+                                        data-form-id="reminder-form-{{ $request->id }}"
+                                        data-borrower-name="{{ $request->borrower->name }}">
+                                        <span class="iconify w-5 h-5" data-icon="basil:notification-on-solid"></span>
+                                    </button>
+                                </form>
+                            @else
+                                -
+                            @endif
+                        </td>
                     </tr>
                 @empty
                     <tr>
                         <td colspan="8" class="text-center py-4">
-                            @if(request()->has('search_borrower') || request()->has('status_history'))
+                            @if (request()->has('search_borrower') || request()->has('status_history'))
                                 Tidak ada histori peminjaman ditemukan dengan filter saat ini.
                             @else
                                 Belum ada histori peminjaman.
@@ -113,9 +138,9 @@
     </div>
 
     <div class="mt-6">
-         @if ($borrowRequests->hasPages())
+        @if ($borrowRequests->hasPages())
             {{ $borrowRequests->appends(request()->query())->links() }}
-         @endif
+        @endif
     </div>
 
 @endsection
